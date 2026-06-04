@@ -1,0 +1,115 @@
+.stats {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.stats__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stats__back {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 12px;
+  color: #555;
+}
+
+.stats__back:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.stats__title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+
+.stats__summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stats__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.stats__stat--learned {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+}
+
+.stats__stat--progress {
+  background: linear-gradient(135deg, #fff8e1, #ffecb3);
+}
+
+.stats__stat-value {
+  font-family: 'Nunito', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+
+.stats__stat-label {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.stats__problems {
+  background: white;
+  border-radius: 18px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.stats__problems-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 1rem 0;
+}
+
+.stats__problem-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.stats__problem-word {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: #fff3e0;
+  border-radius: 12px;
+}
+
+.stats__problem-hebrew {
+  font-family: 'Noto Sans Hebrew', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  direction: rtl;
+}
+
+.stats__problem-trans {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.75rem;
+  color: #888;
+}

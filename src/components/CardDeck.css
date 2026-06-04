@@ -1,0 +1,137 @@
+.deck {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.deck__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.deck__back {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 12px;
+  transition: background 0.2s;
+  color: #555;
+}
+
+.deck__back:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.deck__progress {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.deck__progress-bar {
+  flex: 1;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.deck__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6C63FF, #7c4dff);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.deck__progress-text {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  color: #888;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Done screen */
+.deck-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  min-height: 60vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.deck-done__emoji {
+  font-size: 4rem;
+  animation: bounce 0.6s ease;
+}
+
+.deck-done__title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+
+.deck-done__subtitle {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.deck-done__score {
+  font-family: 'Nunito', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #6C63FF;
+}
+
+.deck-done__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.deck-done__btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.deck-done__btn:hover {
+  transform: translateY(-2px);
+}
+
+.deck-done__btn--restart {
+  background: linear-gradient(135deg, #6C63FF, #7c4dff);
+  color: white;
+}
+
+.deck-done__btn--back {
+  background: #e8eaf6;
+  color: #3949ab;
+}
+
+@keyframes bounce {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
