@@ -69,29 +69,30 @@ export function Stats({ t, onBack, today, month, year }: StatsProps) {
 
       <div className="stats__activity">
         <h3 className="stats__activity-title">{t.stats.activity}</h3>
-        <div className="stats__table-wrap">
-          <table className="stats__table">
-            <thead>
-              <tr>
-                <th>{t.stats.period}</th>
-                <th>{t.stats.listenSessions}</th>
-                <th>{t.stats.speakSessions}</th>
-                <th>{t.stats.correctAnswers}</th>
-                <th>{t.stats.totalAnswers}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {periods.map(p => (
-                <tr key={p.label}>
-                  <td className="stats__table-period">{p.label}</td>
-                  <td>{p.data.listenSessions}</td>
-                  <td>{p.data.speakSessions}</td>
-                  <td className="stats__table-correct">{p.data.correctWords}</td>
-                  <td>{p.data.totalWords}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="stats__periods">
+          {periods.map(p => (
+            <div key={p.label} className="stats__period-card">
+              <div className="stats__period-label">{p.label}</div>
+              <div className="stats__period-rows">
+                <div className="stats__period-row">
+                  <span className="stats__period-key">{t.stats.listenSessions}</span>
+                  <span className="stats__period-val">{p.data.listenSessions}</span>
+                </div>
+                <div className="stats__period-row">
+                  <span className="stats__period-key">{t.stats.speakSessions}</span>
+                  <span className="stats__period-val">{p.data.speakSessions}</span>
+                </div>
+                <div className="stats__period-row">
+                  <span className="stats__period-key">{t.stats.correctAnswers}</span>
+                  <span className="stats__period-val stats__period-val--correct">{p.data.correctWords}</span>
+                </div>
+                <div className="stats__period-row">
+                  <span className="stats__period-key">{t.stats.totalAnswers}</span>
+                  <span className="stats__period-val">{p.data.totalWords}</span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

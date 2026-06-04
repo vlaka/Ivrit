@@ -6,12 +6,14 @@ interface SettingsProps {
   t: Translations
   lang: Lang
   speechRate: number
+  debug: boolean
   onChangeLang: (lang: Lang) => void
   onChangeSpeechRate: (rate: number) => void
+  onToggleDebug: () => void
   onBack: () => void
 }
 
-export function Settings({ t, lang, speechRate, onChangeLang, onChangeSpeechRate, onBack }: SettingsProps) {
+export function Settings({ t, lang, speechRate, debug, onChangeLang, onChangeSpeechRate, onToggleDebug, onBack }: SettingsProps) {
   const { resetProgress } = useProgress()
 
   const handleReset = () => {
@@ -67,6 +69,24 @@ export function Settings({ t, lang, speechRate, onChangeLang, onChangeSpeechRate
         <button className="settings__reset" onClick={handleReset}>
           {t.settings.resetProgress}
         </button>
+      </div>
+
+      <div className="settings__section">
+        <label className="settings__label">Debug</label>
+        <div className="settings__toggle">
+          <button
+            className={`settings__toggle-btn ${!debug ? 'settings__toggle-btn--active' : ''}`}
+            onClick={() => { if (debug) onToggleDebug() }}
+          >
+            Off
+          </button>
+          <button
+            className={`settings__toggle-btn ${debug ? 'settings__toggle-btn--active' : ''}`}
+            onClick={() => { if (!debug) onToggleDebug() }}
+          >
+            On
+          </button>
+        </div>
       </div>
     </div>
   )

@@ -13,6 +13,7 @@ type Screen = 'home' | 'levels' | 'deck' | 'settings' | 'stats'
 
 const LANG_KEY = 'ivrit-lang'
 const RATE_KEY = 'ivrit-rate'
+const DEBUG_KEY = 'ivrit-debug'
 
 function loadLang(): Lang {
   const saved = localStorage.getItem(LANG_KEY)
@@ -31,6 +32,7 @@ function App() {
   const [mode, setMode] = useState<'listen' | 'speak'>('listen')
   const [level, setLevel] = useState(1)
   const [micAvailable, setMicAvailable] = useState(false)
+  const [debug, setDebug] = useState(() => localStorage.getItem(DEBUG_KEY) === '1')
 
   const { logSession, logAnswer, today, month, year } = useActivityLog()
   const translations = getT(lang)
@@ -48,6 +50,14 @@ function App() {
   const changeRate = (rate: number) => {
     setSpeechRate(rate)
     localStorage.setItem(RATE_KEY, String(rate))
+  }
+
+  const toggleDebug = () => {
+    setDebug(prev => {
+      const next = !prev
+      localStorage.setItem(DEBUG_KEY, next ? '1' : '0')
+      return next
+    })
   }
 
   const startMode = (m: 'listen' | 'speak') => {
@@ -90,6 +100,7 @@ function App() {
           level={level}
           mode={mode}
           t={translations}
+          debug={debug}
           onBack={() => setScreen('levels')}
           onLogAnswer={logAnswer}
         />
@@ -100,8 +111,10 @@ function App() {
           t={translations}
           lang={lang}
           speechRate={speechRate}
+          debug={debug}
           onChangeLang={changeLang}
           onChangeSpeechRate={changeRate}
+          onToggleDebug={toggleDebug}
           onBack={() => setScreen('home')}
         />
       )}

@@ -87,47 +87,53 @@
   margin: 0 0 1rem 0;
 }
 
-.stats__table-wrap {
-  overflow-x: auto;
+.stats__periods {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.stats__table {
-  width: 100%;
-  border-collapse: collapse;
+.stats__period-card {
+  background: #f8f9fa;
+  border-radius: 14px;
+  padding: 0.75rem 1rem;
+}
+
+.stats__period-label {
   font-family: 'Nunito', sans-serif;
-  font-size: 0.9rem;
-}
-
-.stats__table th {
-  text-align: center;
-  padding: 0.5rem 0.4rem;
-  color: #888;
-  font-weight: 600;
-  font-size: 0.75rem;
-  border-bottom: 2px solid #eee;
-  white-space: nowrap;
-}
-
-.stats__table td {
-  text-align: center;
-  padding: 0.6rem 0.4rem;
-  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.95rem;
+  font-weight: 800;
   color: #1a1a2e;
-  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
-.stats__table-period {
-  text-align: start !important;
-  font-weight: 700 !important;
-  color: #555 !important;
+.stats__period-rows {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem 1rem;
 }
 
-.stats__table-correct {
-  color: #2e7d32 !important;
+.stats__period-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.stats__table tbody tr:last-child td {
-  border-bottom: none;
+.stats__period-key {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.stats__period-val {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.stats__period-val--correct {
+  color: #2e7d32;
 }
 
 .stats__problems {
