@@ -71,6 +71,65 @@
   color: #888;
 }
 
+.stats__activity {
+  background: white;
+  border-radius: 18px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
+}
+
+.stats__activity-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 1rem 0;
+}
+
+.stats__table-wrap {
+  overflow-x: auto;
+}
+
+.stats__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+}
+
+.stats__table th {
+  text-align: center;
+  padding: 0.5rem 0.4rem;
+  color: #888;
+  font-weight: 600;
+  font-size: 0.75rem;
+  border-bottom: 2px solid #eee;
+  white-space: nowrap;
+}
+
+.stats__table td {
+  text-align: center;
+  padding: 0.6rem 0.4rem;
+  border-bottom: 1px solid #f0f0f0;
+  color: #1a1a2e;
+  font-weight: 600;
+}
+
+.stats__table-period {
+  text-align: start !important;
+  font-weight: 700 !important;
+  color: #555 !important;
+}
+
+.stats__table-correct {
+  color: #2e7d32 !important;
+}
+
+.stats__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
 .stats__problems {
   background: white;
   border-radius: 18px;

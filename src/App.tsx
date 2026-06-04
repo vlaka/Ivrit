@@ -6,6 +6,7 @@ import { Settings } from './components/Settings'
 import { Stats } from './components/Stats'
 import { t as getT } from './i18n'
 import type { Lang } from './i18n'
+import { useActivityLog } from './hooks/useActivityLog'
 import './App.css'
 
 type Screen = 'home' | 'levels' | 'deck' | 'settings' | 'stats'
@@ -31,6 +32,7 @@ function App() {
   const [level, setLevel] = useState(1)
   const [micAvailable, setMicAvailable] = useState(false)
 
+  const { logSession, logAnswer, today, month, year } = useActivityLog()
   const translations = getT(lang)
 
   useEffect(() => {
@@ -56,6 +58,7 @@ function App() {
   const selectLevel = (lvl: number) => {
     setLevel(lvl)
     setScreen('deck')
+    logSession(mode)
   }
 
   const dir = lang === 'he' ? 'rtl' : 'ltr'
@@ -88,6 +91,7 @@ function App() {
           mode={mode}
           t={translations}
           onBack={() => setScreen('levels')}
+          onLogAnswer={logAnswer}
         />
       )}
 
@@ -106,6 +110,9 @@ function App() {
         <Stats
           t={translations}
           onBack={() => setScreen('home')}
+          today={today}
+          month={month}
+          year={year}
         />
       )}
     </div>

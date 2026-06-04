@@ -13,9 +13,10 @@ interface CardDeckProps {
   mode: 'listen' | 'speak'
   t: Translations
   onBack: () => void
+  onLogAnswer: (correct: boolean) => void
 }
 
-export function CardDeck({ level, mode, t, onBack }: CardDeckProps) {
+export function CardDeck({ level, mode, t, onBack, onLogAnswer }: CardDeckProps) {
   const showNikud = isNikudLevel(level)
   const { speak, available: ttsAvailable, voiceInfo } = useSpeech()
   const { listen, status: speechStatus, available: speechAvailable, result: speechResult, interimText } = useSpeechRecognition()
@@ -35,12 +36,14 @@ export function CardDeck({ level, mode, t, onBack }: CardDeckProps) {
 
   const handleCorrect = () => {
     markCorrect(deck[currentIndex].id)
+    onLogAnswer(true)
     setScore(s => ({ correct: s.correct + 1, total: s.total + 1 }))
     advance()
   }
 
   const handleIncorrect = () => {
     markIncorrect(deck[currentIndex].id)
+    onLogAnswer(false)
     setScore(s => ({ ...s, total: s.total + 1 }))
     advance()
   }
