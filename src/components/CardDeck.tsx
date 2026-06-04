@@ -19,7 +19,7 @@ interface CardDeckProps {
 export function CardDeck({ level, mode, t, onBack, onLogAnswer }: CardDeckProps) {
   const showNikud = isNikudLevel(level)
   const { speak, available: ttsAvailable, voiceInfo } = useSpeech()
-  const { listen, status: speechStatus, available: speechAvailable, result: speechResult, interimText } = useSpeechRecognition()
+  const { listen, status: speechStatus, available: speechAvailable, result: speechResult, interimText, debugLog } = useSpeechRecognition()
   const { progress, markCorrect, markIncorrect } = useProgress()
 
   const deck = useMemo(() => {
@@ -99,6 +99,24 @@ export function CardDeck({ level, mode, t, onBack, onLogAnswer }: CardDeckProps)
       {voiceInfo && (
         <div style={{ fontSize: '0.7rem', color: '#aaa', textAlign: 'center' }}>
           TTS: {voiceInfo}
+        </div>
+      )}
+
+      {mode === 'speak' && debugLog.length > 0 && (
+        <div style={{
+          fontSize: '0.65rem',
+          fontFamily: 'monospace',
+          background: 'rgba(0,0,0,0.85)',
+          color: '#0f0',
+          padding: '0.5rem',
+          borderRadius: '8px',
+          maxHeight: '150px',
+          overflow: 'auto',
+          margin: '0 0 0.5rem 0',
+          direction: 'ltr',
+          textAlign: 'left',
+        }}>
+          {debugLog.map((line, i) => <div key={i}>{line}</div>)}
         </div>
       )}
 

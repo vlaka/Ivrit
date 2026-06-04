@@ -61,16 +61,25 @@ export function useSpeechRecognition() {
   const [available, setAvailable] = useState(false)
   const [result, setResult] = useState<string | null>(null)
   const [interimText, setInterimText] = useState<string | null>(null)
+  const [debugLog, setDebugLog] = useState<string[]>([])
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const resolvedRef = useRef(false)
   const restartCountRef = useRef(0)
   const bestInterimRef = useRef<string | null>(null)
 
-  useEffect(() => {
-    const hasAPI = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window
-    setAvailable(hasAPI)
+  const addDebug = useCallback((msg: string) => {
+    const ts = new Date().toLocaleTimeString('en', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    setDebugLog(prev => [...prev.slice(-19), `${ts} ${msg}`])
   }, [])
+
+  useEffect(() => {
+    const hasWebkit = 'webkitSpeechRecognition' in window
+    const hasStandard = 'SpeechRecognition' in window
+    const hasAPI = hasWebkit || hasStandard
+    setAvailable(hasAPI)
+    addDebug(`API: webkit=${hasWebkit} standard=${hasStandard} mobile=${isMobile}`)
+  }, [addDebug])
 
   const clearTimer = useCallback(() => {
     if (timeoutRef.current) {
@@ -86,6 +95,7 @@ export function useSpeechRecognition() {
         (window as unknown as Record<string, unknown>).SpeechRecognition
 
       if (!SpeechRecognitionAPI) {
+        addDebug('ERR: no API found')
         resolve(false)
         return
       }
@@ -97,6 +107,7 @@ export function useSpeechRecognition() {
       setStatus('listening')
       setResult(null)
       setInterimText(null)
+      addDebug(`listen start, expected="${expectedWord}" continuous=${!isMobile}`)
 
       const finishWith = (matched: boolean, transcript: string | null) => {
         if (resolvedRef.current) return
@@ -107,6 +118,7 @@ export function useSpeechRecognition() {
         setResult(transcript)
         setInterimText(null)
         setStatus('idle')
+        addDebug(`finish: matched=${matched} text="${transcript}"`)
         resolve(matched)
       }
 
@@ -130,6 +142,10 @@ export function useSpeechRecognition() {
         recognition.maxAlternatives = 5
         recognitionRef.current = recognition
 
+        recognition.onaudiostart = () => { addDebug('event: audiostart') }
+        recognition.onspeechstart = () => { addDebug('event: speechstart') }
+        recognition.onspeechend = () => { addDebug('event: speechend') }
+
         recognition.onresult = (event: SpeechRecognitionEvent) => {
           if (resolvedRef.current) return
 
@@ -137,11 +153,13 @@ export function useSpeechRecognition() {
             const res = event.results[r]
 
             if (res.isFinal) {
+              const transcript = res[0].transcript
+              addDebug(`result FINAL: "${transcript}" (${res.length} alt)`)
               for (let i = 0; i < res.length; i++) {
-                const transcript = res[i].transcript
-                bestInterimRef.current = transcript
-                if (wordsMatch(transcript, expectedWord)) {
-                  finishWith(true, normalize(transcript))
+                const t = res[i].transcript
+                bestInterimRef.current = t
+                if (wordsMatch(t, expectedWord)) {
+                  finishWith(true, normalize(t))
                   return
                 }
               }
@@ -149,6 +167,7 @@ export function useSpeechRecognition() {
               return
             } else {
               const interim = res[0].transcript
+              addDebug(`result interim: "${interim}"`)
               bestInterimRef.current = interim
               setInterimText(interim)
 
@@ -165,6 +184,7 @@ export function useSpeechRecognition() {
         }
 
         recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+          addDebug(`error: ${event.error}`)
           if (resolvedRef.current) return
           if (event.error === 'no-speech' || event.error === 'aborted') {
             return
@@ -178,6 +198,7 @@ export function useSpeechRecognition() {
         }
 
         recognition.onend = () => {
+          addDebug(`event: onend (restart #${restartCountRef.current})`)
           if (resolvedRef.current) return
           restartCountRef.current++
           if (restartCountRef.current < MAX_RESTARTS) {
@@ -186,11 +207,14 @@ export function useSpeechRecognition() {
               try {
                 const next = createRecognition()
                 next.start()
-              } catch {
+                addDebug(`restarted #${restartCountRef.current}`)
+              } catch (e) {
+                addDebug(`restart failed: ${e}`)
                 finishFromTimeout()
               }
             }, RESTART_DELAY_MS)
           } else {
+            addDebug('max restarts reached')
             finishFromTimeout()
           }
         }
@@ -201,7 +225,9 @@ export function useSpeechRecognition() {
       try {
         const recognition = createRecognition()
         recognition.start()
-      } catch {
+        addDebug('recognition.start() called')
+      } catch (e) {
+        addDebug(`start failed: ${e}`)
         finishWith(false, null)
       }
     })
@@ -216,7 +242,7 @@ export function useSpeechRecognition() {
     setInterimText(null)
   }, [clearTimer])
 
-  return { listen, stop, status, available, result, interimText }
+  return { listen, stop, status, available, result, interimText, debugLog }
 }
 
 declare global {
@@ -229,6 +255,9 @@ declare global {
     onresult: ((event: SpeechRecognitionEvent) => void) | null
     onerror: ((event: SpeechRecognitionErrorEvent) => void) | null
     onend: (() => void) | null
+    onaudiostart: (() => void) | null
+    onspeechstart: (() => void) | null
+    onspeechend: (() => void) | null
     start(): void
     stop(): void
   }
