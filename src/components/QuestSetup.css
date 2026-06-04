@@ -54,10 +54,41 @@
   color: #aaa;
 }
 
+.quest-setup__input-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.quest-setup__input-wrap {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+}
+
+.quest-setup__clear-btn {
+  position: absolute;
+  top: 50%;
+  right: 0.6rem;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+.quest-setup__clear-btn:hover {
+  color: #555;
+}
+
 .quest-setup__input {
+  width: 100%;
   font-family: 'Nunito', sans-serif;
   font-size: 1.1rem;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 2rem 0.75rem 1rem;
   border: 2px solid #e0e0e0;
   border-radius: 14px;
   outline: none;
@@ -66,6 +97,32 @@
 
 .quest-setup__input:focus {
   border-color: #ff9800;
+}
+
+.quest-setup__mic-btn {
+  font-size: 1.3rem;
+  padding: 0 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 14px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.quest-setup__mic-btn:hover {
+  border-color: #ff9800;
+}
+
+.quest-setup__mic-btn--active {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  border-color: #ff9800;
+  animation: quest-mic-pulse 1s ease infinite;
+}
+
+@keyframes quest-mic-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
 .quest-setup__input::placeholder {

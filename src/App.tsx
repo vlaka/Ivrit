@@ -114,6 +114,7 @@ function App() {
       {screen === 'quest-setup' && (
         <QuestSetup
           t={translations}
+          lang={lang}
           micAvailable={micAvailable}
           onStart={(cfg) => {
             setQuestConfig(cfg)
