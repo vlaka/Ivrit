@@ -11,8 +11,11 @@ interface SpeechRecognitionErrorEvent {
 
 type RecognitionStatus = 'idle' | 'listening' | 'processing'
 
-const LISTEN_TIMEOUT_MS = 7000
+const LISTEN_TIMEOUT_MS = 8000
 const MAX_RESTARTS = 5
+const RESTART_DELAY_MS = 300
+
+const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent)
 
 function removeNikud(text: string): string {
   return text.replace(/[\u0591-\u05C7]/g, '')
@@ -122,7 +125,7 @@ export function useSpeechRecognition() {
       const createRecognition = () => {
         const recognition = new (SpeechRecognitionAPI as new () => SpeechRecognitionInstance)()
         recognition.lang = 'he-IL'
-        recognition.continuous = true
+        recognition.continuous = !isMobile
         recognition.interimResults = true
         recognition.maxAlternatives = 5
         recognitionRef.current = recognition
@@ -130,7 +133,7 @@ export function useSpeechRecognition() {
         recognition.onresult = (event: SpeechRecognitionEvent) => {
           if (resolvedRef.current) return
 
-          for (let r = 0; r < event.results.length; r++) {
+          for (let r = event.resultIndex; r < event.results.length; r++) {
             const res = event.results[r]
 
             if (res.isFinal) {
@@ -166,6 +169,11 @@ export function useSpeechRecognition() {
           if (event.error === 'no-speech' || event.error === 'aborted') {
             return
           }
+          if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+            finishWith(false, null)
+            setAvailable(false)
+            return
+          }
           finishWith(false, null)
         }
 
@@ -173,12 +181,15 @@ export function useSpeechRecognition() {
           if (resolvedRef.current) return
           restartCountRef.current++
           if (restartCountRef.current < MAX_RESTARTS) {
-            try {
-              const next = createRecognition()
-              next.start()
-            } catch {
-              finishFromTimeout()
-            }
+            setTimeout(() => {
+              if (resolvedRef.current) return
+              try {
+                const next = createRecognition()
+                next.start()
+              } catch {
+                finishFromTimeout()
+              }
+            }, RESTART_DELAY_MS)
           } else {
             finishFromTimeout()
           }
