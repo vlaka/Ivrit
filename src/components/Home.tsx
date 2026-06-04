@@ -8,9 +8,10 @@ interface HomeProps {
   onStartSpeaking: () => void
   onSettings: () => void
   onStats: () => void
+  onQuest: () => void
 }
 
-export function Home({ t, micAvailable, onStartListening, onStartSpeaking, onSettings, onStats }: HomeProps) {
+export function Home({ t, micAvailable, onStartListening, onStartSpeaking, onSettings, onStats, onQuest }: HomeProps) {
   return (
     <div className="home">
       <div className="home__hero">
@@ -30,6 +31,11 @@ export function Home({ t, micAvailable, onStartListening, onStartSpeaking, onSet
             <span className="home__mode-text">{t.home.startSpeaking}</span>
           </button>
         )}
+
+        <button className="home__mode home__mode--quest" onClick={onQuest}>
+          <span className="home__mode-icon">🏆</span>
+          <span className="home__mode-text">{t.home.quest}</span>
+        </button>
       </div>
 
       <div className="home__nav">

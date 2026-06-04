@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { Home } from './components/Home'
 import { LevelSelector } from './components/LevelSelector'
 import { CardDeck } from './components/CardDeck'
+import { QuestSetup } from './components/QuestSetup'
+import type { QuestConfig } from './components/QuestSetup'
+import { QuestDeck } from './components/QuestDeck'
 import { Settings } from './components/Settings'
 import { Stats } from './components/Stats'
 import { t as getT } from './i18n'
@@ -9,7 +12,7 @@ import type { Lang } from './i18n'
 import { useActivityLog } from './hooks/useActivityLog'
 import './App.css'
 
-type Screen = 'home' | 'levels' | 'deck' | 'settings' | 'stats'
+type Screen = 'home' | 'levels' | 'deck' | 'quest-setup' | 'quest-play' | 'settings' | 'stats'
 
 const LANG_KEY = 'ivrit-lang'
 const RATE_KEY = 'ivrit-rate'
@@ -33,6 +36,7 @@ function App() {
   const [level, setLevel] = useState(1)
   const [micAvailable, setMicAvailable] = useState(false)
   const [debug, setDebug] = useState(() => localStorage.getItem(DEBUG_KEY) === '1')
+  const [questConfig, setQuestConfig] = useState<QuestConfig | null>(null)
 
   const { logSession, logAnswer, today, month, year } = useActivityLog()
   const translations = getT(lang)
@@ -83,6 +87,7 @@ function App() {
           onStartSpeaking={() => startMode('speak')}
           onSettings={() => setScreen('settings')}
           onStats={() => setScreen('stats')}
+          onQuest={() => setScreen('quest-setup')}
         />
       )}
 
@@ -102,6 +107,30 @@ function App() {
           t={translations}
           debug={debug}
           onBack={() => setScreen('levels')}
+          onLogAnswer={logAnswer}
+        />
+      )}
+
+      {screen === 'quest-setup' && (
+        <QuestSetup
+          t={translations}
+          micAvailable={micAvailable}
+          onStart={(cfg) => {
+            setQuestConfig(cfg)
+            setScreen('quest-play')
+            logSession(cfg.mode)
+          }}
+          onBack={() => setScreen('home')}
+        />
+      )}
+
+      {screen === 'quest-play' && questConfig && (
+        <QuestDeck
+          key={`quest-${questConfig.name}-${questConfig.level}`}
+          config={questConfig}
+          t={translations}
+          debug={debug}
+          onBack={() => setScreen('home')}
           onLogAnswer={logAnswer}
         />
       )}

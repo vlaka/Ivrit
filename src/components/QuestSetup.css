@@ -1,0 +1,169 @@
+.quest-setup {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.quest-setup__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.quest-setup__back {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 12px;
+  color: #555;
+}
+
+.quest-setup__title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+
+.quest-setup__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.quest-setup__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quest-setup__label {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #555;
+}
+
+.quest-setup__max {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.quest-setup__input {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.quest-setup__input:focus {
+  border-color: #ff9800;
+}
+
+.quest-setup__input::placeholder {
+  color: #ccc;
+}
+
+.quest-setup__levels {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.quest-setup__level-btn {
+  flex: 1;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  padding: 0.6rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 14px;
+  background: white;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quest-setup__level-btn:hover {
+  border-color: #ff9800;
+}
+
+.quest-setup__level-btn--active {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  color: white;
+  border-color: #ff9800;
+}
+
+.quest-setup__range {
+  width: 100%;
+  accent-color: #ff9800;
+  height: 6px;
+}
+
+.quest-setup__range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.quest-setup__modes {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.quest-setup__mode-btn {
+  flex: 1;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 14px;
+  background: white;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quest-setup__mode-btn:hover {
+  border-color: #ff9800;
+}
+
+.quest-setup__mode-btn--active {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  color: white;
+  border-color: #ff9800;
+}
+
+.quest-setup__start {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.quest-setup__start:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+}
+
+.quest-setup__start:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
