@@ -44,7 +44,7 @@ export const words: Word[] = [
 
   // === LEVEL 2: Common words (food, school, home, body) ===
   { id: 32, hebrew: 'ספר', hebrewNikud: 'סֵפֶר', transliteration: 'сефер', russian: 'книга', category: 'school', level: 2 },
-  { id: 33, hebrew: 'עט', hebrewNikud: 'עֵט', transliteration: 'эт', russian: 'ручка', category: 'school', level: 2 },
+  { id: 33, hebrew: 'עיפרון', hebrewNikud: 'עִפָּרוֹן', transliteration: 'ипарон', russian: 'карандаш', category: 'school', level: 2 },
   { id: 34, hebrew: 'מורה', hebrewNikud: 'מוֹרָה', transliteration: 'мора', russian: 'учительница', category: 'school', level: 2 },
   { id: 35, hebrew: 'כיתה', hebrewNikud: 'כִּתָּה', transliteration: 'кита', russian: 'класс', category: 'school', level: 2 },
   { id: 36, hebrew: 'תלמיד', hebrewNikud: 'תַּלְמִיד', transliteration: 'талмид', russian: 'ученик', category: 'school', level: 2 },
