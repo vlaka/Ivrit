@@ -15,8 +15,6 @@ const LISTEN_TIMEOUT_MS = 8000
 const MAX_RESTARTS = 5
 const RESTART_DELAY_MS = 300
 
-const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent)
-
 function removeNikud(text: string): string {
   return text.replace(/[\u0591-\u05C7]/g, '')
 }
@@ -78,7 +76,7 @@ export function useSpeechRecognition() {
     const hasStandard = 'SpeechRecognition' in window
     const hasAPI = hasWebkit || hasStandard
     setAvailable(hasAPI)
-    addDebug(`API: webkit=${hasWebkit} standard=${hasStandard} mobile=${isMobile}`)
+    addDebug(`API: webkit=${hasWebkit} standard=${hasStandard}`)
   }, [addDebug])
 
   const clearTimer = useCallback(() => {
@@ -107,7 +105,8 @@ export function useSpeechRecognition() {
       setStatus('listening')
       setResult(null)
       setInterimText(null)
-      addDebug(`listen start, expected="${expectedWord}" continuous=${!isMobile}`)
+      addDebug(`listen start, expected="${expectedWord}"`)
+
 
       const finishWith = (matched: boolean, transcript: string | null) => {
         if (resolvedRef.current) return
@@ -137,7 +136,7 @@ export function useSpeechRecognition() {
       const createRecognition = () => {
         const recognition = new (SpeechRecognitionAPI as new () => SpeechRecognitionInstance)()
         recognition.lang = 'he-IL'
-        recognition.continuous = !isMobile
+        recognition.continuous = false
         recognition.interimResults = true
         recognition.maxAlternatives = 5
         recognitionRef.current = recognition
@@ -155,6 +154,10 @@ export function useSpeechRecognition() {
             if (res.isFinal) {
               const transcript = res[0].transcript
               addDebug(`result FINAL: "${transcript}" (${res.length} alt)`)
+              if (!transcript.trim()) {
+                addDebug('empty final — ignoring, will restart')
+                return
+              }
               for (let i = 0; i < res.length; i++) {
                 const t = res[i].transcript
                 bestInterimRef.current = t
