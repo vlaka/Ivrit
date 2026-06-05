@@ -43,6 +43,7 @@ export const ru = {
     normal: 'Нормально',
     resetProgress: 'Сбросить прогресс',
     resetConfirm: 'Точно сбросить весь прогресс?',
+    clearCache: 'Обновить приложение',
     back: 'Назад',
   },
   stats: {

@@ -22,6 +22,22 @@ export function Settings({ t, lang, speechRate, debug, onChangeLang, onChangeSpe
     }
   }
 
+  const handleClearCache = async () => {
+    if ('serviceWorker' in navigator) {
+      const registrations = await navigator.serviceWorker.getRegistrations()
+      for (const reg of registrations) {
+        await reg.unregister()
+      }
+    }
+    if ('caches' in window) {
+      const keys = await caches.keys()
+      for (const key of keys) {
+        await caches.delete(key)
+      }
+    }
+    window.location.reload()
+  }
+
   return (
     <div className="settings">
       <div className="settings__header">
@@ -68,6 +84,12 @@ export function Settings({ t, lang, speechRate, debug, onChangeLang, onChangeSpe
       <div className="settings__section">
         <button className="settings__reset" onClick={handleReset}>
           {t.settings.resetProgress}
+        </button>
+      </div>
+
+      <div className="settings__section">
+        <button className="settings__update" onClick={handleClearCache}>
+          {t.settings.clearCache}
         </button>
       </div>
 

@@ -43,6 +43,7 @@ export const he = {
     normal: 'רגיל',
     resetProgress: 'איפוס התקדמות',
     resetConfirm: '?בטוח לאפס את כל ההתקדמות',
+    clearCache: 'עדכן אפליקציה',
     back: 'חזרה',
   },
   stats: {
